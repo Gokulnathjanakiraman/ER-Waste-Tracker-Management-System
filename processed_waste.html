@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processed Waste Entry</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1c1c1c, #383838);
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 750px;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #555;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .add-btn {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #256628;
+        }
+
+        .submit-btn {
+            background: #1976d2;
+            color: white;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #125aa0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f5f5f5;
+        }
+
+        .remove-btn {
+            background: #d32f2f;
+            color: white;
+            padding: 6px 10px;
+        }
+
+        .remove-btn:hover {
+            background: #a51f1f;
+        }
+
+        .total-box {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>Processed Waste Entry</h2>
+
+    <div class="input-section">
+        <input type="text" id="materialName" placeholder="Material Name">
+        <input type="number" id="quantity" placeholder="Quantity" step="0.01">
+        <button class="add-btn" type="button" onclick="addMaterial()">Add</button>
+    </div>
+
+    <table id="wasteTable">
+        <thead>
+            <tr>
+                <th>Material Name</th>
+                <th>Quantity (kg)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="total-box">
+        Total Quantity: <span id="total">0.00</span> kg
+    </div>
+
+    <button class="submit-btn" type="button" onclick="submitWaste()">Submit Processed Waste</button>
+
+</div>
+
+<script>
+let processedWaste = [];
+
+function updateTotal() {
+    const total = processedWaste.reduce((acc, item) => acc + item.quantity, 0);
+    document.getElementById("total").innerText = total.toFixed(2);
+}
+
+function addMaterial() {
+    const name = document.getElementById("materialName").value.trim();
+    const qty = parseFloat(document.getElementById("quantity").value);
+
+    if (!name || isNaN(qty) || qty <= 0) {
+        alert("Enter valid material and quantity");
+        return;
+    }
+
+    processedWaste.push({ materialName: name, quantity: qty });
+
+    const tbody = document.querySelector("#wasteTable tbody");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td>${qty.toFixed(2)}</td>
+        <td><button class="remove-btn" onclick="removeMaterial(this)">Remove</button></td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateTotal();
+
+    document.getElementById("materialName").value = "";
+    document.getElementById("quantity").value = "";
+}
+
+function removeMaterial(btn) {
+    const row = btn.closest("tr");
+    const index = Array.from(row.parentNode.children).indexOf(row);
+
+    processedWaste.splice(index, 1);
+    row.remove();
+    updateTotal();
+}
+
+function submitWaste() {
+    if (processedWaste.length === 0) {
+        alert("Add at least one material before submitting");
+        return;
+    }
+
+    fetch('/processed-waste/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(processedWaste)
+    })
+    .then(res => {
+        if (res.ok) {
+            alert("Data saved successfully!");
+            window.location.href = "/dashboard";
+        } else {
+            alert("Error saving data");
+        }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
+</body>
+</html>

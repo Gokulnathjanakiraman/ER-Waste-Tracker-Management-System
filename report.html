@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Attendance Report</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .back {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .back a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Generate Attendance Report</h2>
+
+    <form th:action="@{/report/generate}" method="post">
+
+        <label>Start Date</label>
+        <input type="date" name="startDate" required>
+
+        <label>End Date</label>
+        <input type="date" name="endDate" required>
+
+        <label>Report Type</label>
+        <select name="type" required>
+            <option value="excel">Excel</option>
+            <option value="pdf">PDF</option>
+            <option value="csv">CSV</option>
+        </select>
+
+        <button type="submit">Download Report</button>
+
+    </form>
+
+    <div class="back">
+        <a th:href="@{/dashboard}">← Back to Dashboard</a>
+    </div>
+
+</div>
+
+</body>
+</html>

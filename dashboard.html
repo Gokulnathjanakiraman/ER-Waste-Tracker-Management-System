@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d1d5db;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .card a {
+            text-decoration: none;
+            color: #111827;
+            font-weight: 600;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    Waste Management System - Dashboard
+</div>
+
+<div class="container">
+
+    <div class="sidebar">
+        <a href="/attendance">Attendance</a>
+        <a href="/daily-waste">Daily Waste</a>
+        <a href="/processed-waste">Processed Waste</a>
+        <a href="/vehicle-entry/DRY">Dry Vehicle</a>
+        <a href="/vehicle-entry/WET">Wet Vehicle</a>
+        <a href="/vehicle-entry/REJECT">Reject Vehicle</a>
+        <a href="/activity">Daily Activity</a>
+        <a href="/issue">Site Issues</a>
+        <a href="/report/attendance">Attendance Report</a>
+    </div>
+
+    <div class="content">
+
+        <h2>Quick Access</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <a href="/attendance">Manage Attendance</a>
+            </div>
+
+            <div class="card">
+                <a href="/daily-waste">Daily Waste Entry</a>
+            </div>
+
+            <div class="card">
+                <a href="/processed-waste">Processed Waste</a>
+            </div>
+
+            <div class="card">
+                <a href="/activity">Daily Activity Log</a>
+            </div>
+
+            <div class="card">
+                <a href="/issue">Issue Reporting</a>
+            </div>
+
+            <div class="card">
+                <a href="/report">Download Report</a>
+            </div>
+
+            <div class="card">
+                <a href="#">Show Data</a>
+            </div>
+
+            <div class="card">
+                <a href="#">Data Correction</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
